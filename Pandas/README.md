@@ -2,4 +2,4 @@
 
 Authors: Anton Nyström, Helena Fredstadius, Julia Ekman, Martin Dannelind, Mette Nordqvist
 
-## Main directory
+# Directory for Pandas testing
