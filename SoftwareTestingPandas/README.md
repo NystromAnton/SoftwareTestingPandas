@@ -1,5 +1,5 @@
 # Software Testing 
 
-Authors: Anton Nyström, Helena Fredstadius, Julia Ekman, Martin Dannelind, Mette Nordqvist
+Authors: Anton Nyström, Helena Frestadius, Julia Ekman, Martin Dannelind, Mette Nordqvist
 
 # Directory for Pandas testing
