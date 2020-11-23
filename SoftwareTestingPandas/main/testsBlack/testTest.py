@@ -32,6 +32,8 @@ class TestPandasTitanic(unittest.TestCase):
         df = pd.read_csv ('../src/data/titanic.csv')
         self.assertEqual(len(self.df.index),887)
 
+    def testSizeOriginal(self):
+        self.assertEqual(self.df.size,7104)
 
 if __name__ == '__main__' :
     unittest.main()
