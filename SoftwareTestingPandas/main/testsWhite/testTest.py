@@ -29,7 +29,6 @@ class TestPandasTitanic(unittest.TestCase):
         self.assertEqual(self.df.empty,False)
 
     def testTitanic2(self):
-        df = pd.read_csv ('../src/data/titanic.csv')
         self.assertEqual(len(self.df.index),887)
 
 
