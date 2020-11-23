@@ -13,7 +13,7 @@ Contributors:
 '''
 
 '''
-This file contains multiple white box tests for the function '..' from the library Pandas. 
+This file contains multiple black box tests for the function '..' from the library Pandas. 
 
 The function '..' does the following....
 '''
