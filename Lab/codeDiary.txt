@@ -1,0 +1,150 @@
+RED
+I copied all of the tests from the lab instructions and commented out all of them except for the first one:
+
+    self.simple_author_1 = "Smith"
+    self.simple_author_2 = "Jones"
+    def test_author_1(self):
+        #Test only surnames.
+        (Surname, FirstNames) = bibtex.extract_author(self.simple_author_1)
+        self.assertEqual( (Surname, First), ('Smith',''))
+        (Surname, FirstNames) = bibtex.extract_author(self.simple_author_2)
+        self.assertEqual( (Surname, First), ('Jones',''))
+
+
+GREEN
+I first buildt my function in the bibtex.py file:
+
+def extract_author(str):
+    return 0
+
+I needed only to return str togheter with '' in a tuple to complete the test:
+
+def extract_author(str):
+    result = (str,'')
+    return result
+
+
+RED
+I uncommented the next test:
+
+    self.author_1 = "John Smith"
+    self.author_2 = "Bob Jones"
+    def test_author_2(self):
+        #Test simple firstname author.
+        (Surname, First) = bibtex.extract_author(self.simple_author_1)
+        self.assertEqual( (Surname, First), ('Smith','John'))
+        (Surname, First) = bibtex.extract_author(self.simple_author_2)
+        self.assertEqual( (Surname, First), ('Jones','Bob'))
+
+GREEN
+I split str and return the two names using the split() function:
+
+def extract_author(str):
+    list = str.split(' ')
+    result = (list[1],list[0])
+    return result
+
+The test fails with 1 error
+
+in the first test:
+    IndexError: list index out of range
+
+this is fixed using a if statement to know if their are more than 1 name:
+
+
+RED
+The third test is uncommented:
+
+    self.author_3 = "Justin Kenneth Pearson"
+    def test_author_3(self):
+        (Surname, First) = bibtex.extract_author(self.author_3)
+        self.assertEqual( (Surname, First), ('Pearson','Justin Kenneth'))
+
+
+GREEN
+We now need to handle 3 names. Quick fix is another if statement and some hardcoding for this test:
+
+def extract_author(str):
+    list = str.split(' ')
+    if len(list) == 2:
+        result = (list[1],list[0])
+    elif len(list) > 2:
+        result = (list[2],list[0]+' '+list[1])
+    else:
+        result = (str,'')
+    return result
+
+
+RED
+Uncomment the fourth test:
+
+    self.surname_first_1 = "Pearson, Justin Kenneth"
+    self.surname_first_2 = "Van Hentenryck, Pascal"
+    def test_surname_first(self):
+        (Surname, First) = bibtex.extract_author(self.surname_first_1)
+        self.assertEqual( (Surname, First), ('Pearson','Justin Kenneth'))
+        (Surname, First) = bibtex.extract_author(self.surname_first_2)
+        self.assertEqual( (Surname, First), ('Van Hentenryck','Pascal'))
+
+
+REFACTOR
+In order to handle the new ',' sign in the name a refactor of the function was needed. 
+I also removed the hardcoded bit in the last edition of the function.
+
+def extract_author(str):
+    comma = str.split(',')
+    if len(comma) == 1:
+        space = str.split(' ')
+        if len(space) == 1:
+            result = (str,'')
+        else:
+            result = (space[len(space)-1],' '.join(space[0:(len(space)-1)]))
+    else:
+        result = (comma[0], comma[1].strip())
+    
+    return result
+
+
+RED
+The last test is uncommented
+
+    self.multiple_authors_1 = "Pearson, Justin and Jones, Bob"
+    def test_multiple_authors(self):
+        Authors = bibtex.extract_authors(self.multiple_authors_1)
+        self.assertEqual(Authors[0], ('Pearson','Justin'))
+        self.assertEqual(Authors[1], ('Jones','Bob'))
+
+
+GREEN
+The extract_authors() function is added to bibtex.py
+
+def extract_authors(str):
+    return 0
+
+This uses a string with multiple names seperated by 'and'. So I split the string and send each part to extract_author()
+
+def extract_authors(str):
+    andSplit = str.split('and')
+    result = len(andSplit)*[None]
+    for i in range(len(andSplit)):
+        result[i] = extract_author(andSplit[i].strip())
+    return result
+
+
+
+RED
+As i final test i made a harder final test that mixes ways of writing names
+
+    self.multiple_authors_2 = "Pearson, Justin and Jones, Bob and Johan and Billy Bob and Isac Newton, person"
+    def test_multiple_authors_hard(self):
+        Authors = bibtex.extract_authors(self.multiple_authors_2)
+        self.assertEqual(Authors[0], ('Pearson','Justin'))
+        self.assertEqual(Authors[1], ('Jones','Bob'))
+        self.assertEqual(Authors[2], ('Johan',''))
+        self.assertEqual(Authors[3], ('Bob','Billy'))
+        self.assertEqual(Authors[4], ('Isac Newton','person'))
+
+GREEN 
+The function extract_authors() completed the test without needing a change.
+
+Both functions work and the all the tests have passed.

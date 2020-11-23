@@ -11,25 +11,25 @@ class TestAuthorExtract(unittest.TestCase):
     def setUp(self):
         self.simple_author_1 = "Smith"
         self.simple_author_2 = "Jones"
-        self.author_1 = "Jogn Smith"
+        self.author_1 = "John Smith"
         self.author_2 = "Bob Jones"
-        self.author_3 = "Jusin Kenneth Pearson"
+        self.author_3 = "Justin Kenneth Pearson"
         self.surname_first_1 = "Pearson, Justin Kenneth"
         self.surname_first_2 = "Van Hentenryck, Pascal"
         self.multiple_authors_1 = "Pearson, Justin and Jones, Bob"
-
+        self.multiple_authors_2 = "Pearson, Justin and Jones, Bob and Johan and Billy Bob and Isac Newton, person"
     def test_author_1(self):
         #Test only surnames.
-        (Surname, FirstNames) = bibtex.extract_author(self.simple_author_1)
-        self.assertEqual( (Surname, FirstNames), ('Smith',''))
-        (Surname, FirstNames) = bibtex.extract_author(self.simple_author_2)
-        self.assertEqual( (Surname, FirstNames), ('Jones',''))
+        (Surname, First) = bibtex.extract_author(self.simple_author_1)
+        self.assertEqual( (Surname, First), ('Smith',''))
+        (Surname, First) = bibtex.extract_author(self.simple_author_2)
+        self.assertEqual( (Surname, First), ('Jones',''))
 
     def test_author_2(self):
         #Test simple firstname author.
-        (Surname, First) = bibtex.extract_author(self.simple_author_1)
+        (Surname, First) = bibtex.extract_author(self.author_1)
         self.assertEqual( (Surname, First), ('Smith','John'))
-        (Surname, First) = bibtex.extract_author(self.simple_author_2)
+        (Surname, First) = bibtex.extract_author(self.author_2)
         self.assertEqual( (Surname, First), ('Jones','Bob'))
 
     def test_author_3(self):
@@ -46,6 +46,14 @@ class TestAuthorExtract(unittest.TestCase):
         Authors = bibtex.extract_authors(self.multiple_authors_1)
         self.assertEqual(Authors[0], ('Pearson','Justin'))
         self.assertEqual(Authors[1], ('Jones','Bob'))
+    
+    def test_multiple_authors_hard(self):
+        Authors = bibtex.extract_authors(self.multiple_authors_2)
+        self.assertEqual(Authors[0], ('Pearson','Justin'))
+        self.assertEqual(Authors[1], ('Jones','Bob'))
+        self.assertEqual(Authors[2], ('Johan',''))
+        self.assertEqual(Authors[3], ('Bob','Billy'))
+        self.assertEqual(Authors[4], ('Isac Newton','person'))
 
 if __name__ == '__main__':
     unittest.main()
