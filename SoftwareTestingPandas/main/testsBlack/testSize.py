@@ -13,9 +13,10 @@ Contributors:
 '''
 
 '''
-This file contains multiple black box tests for the function '..' from the library Pandas. 
+This file contains multiple black box tests for the function groupby from the library Pandas. 
 
-The function '..' does the following....
+A groupby operation involves some combination of splitting the object, applying a function, and combining the results. 
+This can be used to group large amounts of data and compute operations on these groups.
 '''
 class TestPandasTitanic(unittest.TestCase):
     """
@@ -25,12 +26,8 @@ class TestPandasTitanic(unittest.TestCase):
     def setUp(self):
         self.df = pd.read_csv ('../src/data/titanic.csv')
 
-    def testTitanic(self):
-        self.assertEqual(self.df.empty,False)
-
-    def testTitanic2(self):
-        df = pd.read_csv ('../src/data/titanic.csv')
-        self.assertEqual(len(self.df.index),887)
+    def testSizeOriginal(self):
+        self.assertEqual(self.df.size,7096)
 
 if __name__ == '__main__' :
     unittest.main()
