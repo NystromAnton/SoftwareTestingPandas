@@ -30,6 +30,7 @@ class TestPandasTitanic(unittest.TestCase):
         data = self.df.groupby(['Survived']).size()
         self.assertEqual(data[0],545)
         self.assertEqual(data[1],342)
+        self.assertEqual(data.dtypes, 'int64')
         """
         Survived
         0    545
@@ -41,10 +42,27 @@ class TestPandasTitanic(unittest.TestCase):
         data = self.df.groupby(['Sex']).size()
         self.assertEqual(data[0],314)
         self.assertEqual(data[1],573)
+        self.assertEqual(data.dtypes, 'int64')
         """
         Sex
         female    314
         male      573
+        dtype: int64
+        """
+
+    def testSurvivedSex(self):
+        data = self.df.groupby(['Survived','Sex']).size()
+        self.assertEqual(data[0,'female'], 81)
+        self.assertEqual(data[0,'male'], 464)
+        self.assertEqual(data[1,'female'], 233)
+        self.assertEqual(data[1,'male'], 109)
+        self.assertEqual(data.dtypes, 'int64')
+        """
+        Survived  Sex   
+        0         female     81
+                  male      464
+        1         female    233
+                  male      109
         dtype: int64
         """
 
