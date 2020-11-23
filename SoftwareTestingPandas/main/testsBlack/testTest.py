@@ -32,5 +32,13 @@ class TestPandasTitanic(unittest.TestCase):
         df = pd.read_csv ('../src/data/titanic.csv')
         self.assertEqual(len(self.df.index),887)
 
+<<<<<<< HEAD
+=======
+
+    def testMean(self):
+        self.assertEqual(self.df['Age'].mean(), 29.471443066516347)
+
+
+>>>>>>> f9e09b780f976b29936d43066da69c2d424a5253
 if __name__ == '__main__' :
     unittest.main()
