@@ -4,8 +4,9 @@ import pandas as pd
 '''
 Course: Software Testing
 Team Number: 10
-Contributors: 
+Author:
         Martin Dannelind (mada0115@student.uu.se)
+Contributors: 
         Julia Ekman (juek2660@student.uu.se)    
         Helena Frestadius (hefr3736@student.uu.se)
         Mette Nordqvist (meno5557@student.uu.se)
