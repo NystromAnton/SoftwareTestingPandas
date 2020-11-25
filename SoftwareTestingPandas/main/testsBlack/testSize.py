@@ -26,8 +26,9 @@ class TestPandasTitanic(unittest.TestCase):
     def setUp(self):
         self.df = pd.read_csv ('../src/data/titanic.csv')
         self.emptydf = pd.DataFrame()
+        self.nandf = pd.DataFrame({'col1': [np.NaN, np.NaN], 'col2': [np.NaN, np.NaN]})
     '''
-    test1 compares the regular output when the dataset is applied to the size function. It tests the basic funtionality of size(). 
+    Test1 compares the regular output when the dataset is applied to the size function. It tests the basic funtionality of size(). 
     The input is the dataset called "df".
     The output should be equal to 7096. 
     '''         
@@ -35,16 +36,20 @@ class TestPandasTitanic(unittest.TestCase):
         self.assertEqual(self.df.size,7096)
 
     """
-    test2 checks if the size of an empty dataframe is equal to zero. 
+    Test2 checks if the size of an empty dataframe is equal to zero. 
     The input is called "emptydf" and is an empty dataset. 
     The output should be equal to zero. 
     """
     def test2(self):
-        self.assertTrue(self.emptydf)
         self.assertEqual(self.emptydf.size, 0)
+
     """
-    testa om det funkar fortfarande om det finns NANvärden? 
+    Test3 checks if the size fuction works for NaN values in a dataset.  
     """
+    def test3(self):
+        self.assertEqual(self.nandf.size, 4)
+
+
 
 if __name__ == '__main__' :
     unittest.main()
