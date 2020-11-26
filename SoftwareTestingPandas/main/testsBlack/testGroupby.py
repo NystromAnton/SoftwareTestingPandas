@@ -20,9 +20,6 @@ A groupby operation involves some combination of splitting the object, applying 
 This can be used to group large amounts of data and compute operations on these groups.
 '''
 class TestPandasGroupby(unittest.TestCase):
-    """
-    Test suite for the sensitive edge problem
-    """
     
     def setUp(self):
         self.df = pd.read_csv ('../src/data/titanic.csv')
