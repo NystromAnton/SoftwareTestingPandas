@@ -191,5 +191,20 @@ class TestPandasGroupby(unittest.TestCase):
         self.assertEqual(len(dataTrue.index),884)
         self.assertEqual(len(dataFalse.index),885)
 
+    def testNoArgument(self):
+        with self.assertRaises(TypeError):
+            data = self.df.groupby()            
+
+    def testInvalidArgument(self):  
+        with self.assertRaises(NameError):
+            data = self.df.groupby(argument)
+        
+    def testColumnNotFound(self):
+        with self.assertRaises(KeyError):
+            data = self.df.groupby("")
+        
+        with self.assertRaises(KeyError):
+            data = self.df.groupby("nonexistingcolumn")
+
 if __name__ == '__main__' :
     unittest.main()
