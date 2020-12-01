@@ -26,32 +26,32 @@ class TestPandasTitanic(unittest.TestCase):
     #General case 
     def test1(self):
         self.assertEqual(self.df['Age'].mean(), 29.471443066516347)
+    
+    #test with negative values
+    def test2(self):
+        self.df['Age'] = -self.df['Age']
+        self.assertEqual(self.df['Age'].mean(),-29.471443066516347)
 
     #With nan as first value
-    def test2(self):
+    def test3(self):
         self.df['Age'][0]= np.nan
         self.assertEqual(self.df['Age'].mean(), 29.479875846501127)
 
     #With nan as first and last value
-    def test3(self):
+    def test4(self):
         self.df['Age'][0]= np.nan
         self.df['Age'][self.df.index[-1]]= np.nan
-        self.assertEqual(self.df['Age'].mean(), 29.47702824858757)
+        self.assertEqual(pd.isnull(self.df['Age'].mean(skipna = False)), True)
 
-    #mean of column with only nan and skipna = False
-    def test4(self):
+    #mean of column with only nan
+    def test5(self):
         self.df['nan']= np.nan
-        self.assertFalse(self.df['nan'].mean(skipna=False) == np.nan)
+        self.assertEqual(pd.isnull(self.df['nan'].mean()), True)
 
     #TypeError
-    def test5(self):
+    def test6(self):
         with self.assertRaises(TypeError):
             self.df['Name'].mean()
-    
-    #test with negative values
-    def test6(self):
-        self.df['Age'] = -self.df['Age']
-        self.assertEqual(self.df['Age'].mean(),-29.471443066516347)
 
 
 if __name__ == '__main__' :
