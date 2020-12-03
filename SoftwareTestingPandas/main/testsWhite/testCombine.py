@@ -18,7 +18,7 @@ This file contains multiple white box tests for the function combine from the li
 Combines a DataFrame with other DataFrame using func to element-wise combine columns. 
 The row and column indexes of the resulting DataFrame will be the union of the two.
 '''
-class TestPandasGroupby(unittest.TestCase):
+class TestPandasCombine(unittest.TestCase):
     
     def setUp(self):
         self.df = pd.read_csv ('../src/data/titanic.csv')
