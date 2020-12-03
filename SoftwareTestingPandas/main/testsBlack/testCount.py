@@ -5,12 +5,11 @@ import pandas as pd
 Course: Software Testing
 Team Number: 10
 Author:
-        Mette Nordqvist
+        Mette Nordqvist (meno5557@student.uu.se)
 Contributors:
         Martin Dannelind (mada0115@student.uu.se)
         Julia Ekman (juek2660@student.uu.se)
         Helena Frestadius (hefr3736@student.uu.se)
-        Mette Nordqvist (meno5557@student.uu.se)
         Anton Nyström (anny0532@student.uu.se)
 '''
 

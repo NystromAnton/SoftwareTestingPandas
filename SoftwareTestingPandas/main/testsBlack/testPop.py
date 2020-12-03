@@ -4,11 +4,12 @@ import pandas as pd
 '''
 Course: Software Testing
 Team Number: 10    
+Author:
+        Anton Nyström (anny0532@student.uu.se)
 Contributors: 
         Julia Ekman (juek2660@student.uu.se)    
         Helena Frestadius (hefr3736@student.uu.se)
         Mette Nordqvist (meno5557@student.uu.se)
-        Anton Nyström (anny0532@student.uu.se)
         Martin Dannelind (mada0115@student.uu.se)
 '''
 
@@ -18,9 +19,6 @@ This file contains multiple black box tests for the function "pop" from the Pand
 A pop operation returns a specified column and drops it from the dataframe. Raises a KeyError if column not found.
 '''
 class TestPandasPop(unittest.TestCase):
-    """
-    Test suite for the sensitive edge problem
-    """
     
     def setUp(self):
         self.df = pd.read_csv ('../src/data/titanic.csv')
