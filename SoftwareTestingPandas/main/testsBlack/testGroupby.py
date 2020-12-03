@@ -193,16 +193,14 @@ class TestPandasGroupby(unittest.TestCase):
         dataFalse = self.df.groupby(by=['Survived','Sex','Pclass'], level=0, group_keys=False).size()
         self.assertTrue(dataTrue.equals(dataFalse))
 
-    """
     def test_squeeze(self):
-
+        """
         Reduce the dimensionality of the return type if possible, otherwise return a consistent type.
         Deprecated since version 1.1.0.
-        
+        """
         dataTrue = self.df.groupby(by=['Survived','Sex','Pclass'], squeeze=True).size()
         dataFalse = self.df.groupby(by=['Survived','Sex','Pclass'], squeeze=False).size()
         self.assertTrue(dataTrue.equals(dataFalse))
-    """
     
     def test_observed(self):
         """
