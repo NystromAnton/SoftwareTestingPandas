@@ -65,6 +65,26 @@ class TestPandasDropDuplicates(unittest.TestCase):
         dataComp = self.dfDuplicates.drop_duplicates(ignore_index=True)
         self.assertFalse(data.equals(dataComp))
 
+
+        data = self.dfDuplicates.drop_duplicates(ignore_index=False)
+        dataComp = self.dfDuplicates.drop_duplicates(ignore_index=set())
+        self.assertTrue(data.equals(dataComp))
+
+        data = self.dfDuplicates.drop_duplicates(ignore_index="")
+        dataComp = self.dfDuplicates.drop_duplicates(ignore_index=None)
+        self.assertTrue(data.equals(dataComp))
+
+        data = self.dfDuplicates.drop_duplicates(ignore_index=list())
+        dataComp = self.dfDuplicates.drop_duplicates(ignore_index=0)
+        self.assertTrue(data.equals(dataComp))
+
+        data = self.dfDuplicates.drop_duplicates(ignore_index=True)
+        dataComp = self.dfDuplicates.drop_duplicates(ignore_index="True")
+        self.assertTrue(data.equals(dataComp))
+
+
+
+
     def test4(self):
         """
         Test for inplace parameter
@@ -93,8 +113,11 @@ class TestPandasDropDuplicates(unittest.TestCase):
         -last: Drop duplicates except for the last occurrence. 
         -False: Drop all duplicates.
         """
-        with self.assertRaises(TypeError):
-            dataError = self.df.drop_duplicates(keel='error')
+        with self.assertRaises(ValueError):
+            dataError = self.df.drop_duplicates(keep='error')
+        with self.assertRaises(ValueError):
+            dataError = self.df.drop_duplicates(keep=None)
+
 
         dataFirst = self.df.drop_duplicates(keep='first')
         dataLast = self.df.drop_duplicates(keep='last')
@@ -124,6 +147,35 @@ class TestPandasDropDuplicates(unittest.TestCase):
         data = self.df.drop_duplicates()
         dataComp = self.df.drop_duplicates(subset=['Age'])
         self.assertFalse(data.equals(dataComp))
+
+    def testValidateBoolKwarg(self):
+        # Correct boolean value
+        inplace = True
+        self.assertTrue(pd.util._validators.validate_bool_kwarg(inplace, "inplace"))
+        inplace = "True"
+        with self.assertRaises(ValueError):
+            self.assertTrue(pd.util._validators.validate_bool_kwarg(inplace, "inplace"))
+
+        # Correct boolean value
+        inplace = False
+        self.assertFalse(pd.util._validators.validate_bool_kwarg(inplace, "inplace"))
+        # For None no ValueError was raised as expected.
+        inplace = None
+        self.assertFalse(pd.util._validators.validate_bool_kwarg(inplace, "inplace"))
+
+        inplace = ""
+        with self.assertRaises(ValueError):
+            self.assertFalse(pd.util._validators.validate_bool_kwarg(inplace, "inplace"))
+        inplace = 0
+        with self.assertRaises(ValueError):
+            self.assertFalse(pd.util._validators.validate_bool_kwarg(inplace, "inplace"))
+        inplace = set()
+        with self.assertRaises(ValueError):
+            self.assertFalse(pd.util._validators.validate_bool_kwarg(inplace, "inplace"))
+        inplace = list()
+        with self.assertRaises(ValueError):
+            self.assertFalse(pd.util._validators.validate_bool_kwarg(inplace, "inplace"))
+
 
 if __name__ == '__main__' :
     unittest.main()
