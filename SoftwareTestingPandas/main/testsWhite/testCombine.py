@@ -46,19 +46,25 @@ class TestPandasCombine(unittest.TestCase):
         result = self.dfSurvived.combine(self.dfSurvived, self.funcSum)
         #print(result)
 
-    def testTitaniCombineW1(self):
+    def test1_2_4(self):
         self.emptydf = pd.DataFrame()
         #print(self.df.combine(self.emptydf, self.funcNone))
         #print(self.emptydf)
         self.assertTrue(self.emptydf.combine(self.df, self.funcNone).equals(self.df))
         #self.assertTrue(self.df.combine(self.emptydf, self.funcNone).equals(self.emptydf))
 
+    def test1_2_5_6_7_8_10_12_13_17_18(self):
+        newdf= pd.DataFrame({'a':[1.1,1.2], 'b':[3.1,4.3]})
+        otherdf = pd.DataFrame({'b':[1,2], 'c':[3,4]})
+        expecteddf = pd.DataFrame({'a':[np.NaN, np.NaN], 'b':[1.0,2.0], 'c':[np.NaN, np.NaN]})
+        self.assertTrue(newdf.combine(otherdf, self.take_smaller).equals(expecteddf))
+
+
     def test1_2_5_6_7_8_10_11_12_13_17_18(self):
         newdf= pd.DataFrame({'a':[1,1], 'b':[None,3]})
         otherdf = pd.DataFrame({'b':[0.0,2.3], 'c':[None,4]})
-        expecteddf= pd.DataFrame({'a':[np.NaN, np.NaN], 'b':[0.0, 2.3], 'c': [np.NaN, np.NaN]})
-        self.assertTrue(newdf.combine(otherdf, self.take_smaller).equals(expecteddf))
-
+        expecteddf= pd.DataFrame({'a':[-5, -5], 'b':[-5.0, 3.0], 'c': [-5.0, -5.0]})
+        self.assertTrue(newdf.combine(otherdf, self.take_smaller, fill_value=-5.0).equals(expecteddf))
 
     def test1_2_5_6_7_8_10_12_14_15_17_18(self):
         newdf= pd.DataFrame({'a':[1,1], 'b':[None,3]})
@@ -73,6 +79,12 @@ class TestPandasCombine(unittest.TestCase):
         otherdf = pd.DataFrame({'a':[0.0,2.3], 'b':[None,4]})
         expecteddf=pd.DataFrame({'a':[1, 1], 'b':[-5.0, 3.0]})
         self.assertTrue(newdf.combine(otherdf, self.take_smaller, fill_value=-5).equals(expecteddf))
+
+    def test1_2_5_6_7_8_10_12_14_16_17_18(self):
+        newdf=pd.DataFrame({'a':[0.0,2.3], 'b':[None,4]})
+        otherdf = pd.DataFrame({'a':[1,1], 'b':[None,3]})
+        expecteddf=pd.DataFrame({'a':[1.0, 1.0], 'b':[np.NaN, 3.0]})
+        self.assertTrue(newdf.combine(otherdf, self.take_smaller).equals(expecteddf))
 
     #Common columnnames, value_fill is not none, different dtypes in dataframes, changes to the dtype of self
     def test1_2_5_6_7_8_10_11_12_14_16_17_18(self):
