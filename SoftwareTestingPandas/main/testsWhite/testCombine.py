@@ -18,7 +18,7 @@ This file contains multiple white box tests for the function combine from the li
 Combines a DataFrame with other DataFrame using func to element-wise combine columns. 
 The row and column indexes of the resulting DataFrame will be the union of the two.
 '''
-class TestPandasGroupby(unittest.TestCase):
+class TestPandasCombine(unittest.TestCase):
     
     def setUp(self):
         self.df = pd.read_csv ('../src/data/titanic.csv')
@@ -27,6 +27,7 @@ class TestPandasGroupby(unittest.TestCase):
         self.func = lambda s1, s2: s1 if s1.sum() < s2.sum() else s2
         self.funcSum = lambda s1, s2: s1.sum() + s2.sum()
         self.funcBad = lambda s1, s2: s1+None
+        self.take_smaller = lambda s1, s2: s1 if s1.sum() < s2.sum() else s2
 
     def testNoArgument(self):
         with self.assertRaises(TypeError):
@@ -42,7 +43,15 @@ class TestPandasGroupby(unittest.TestCase):
 
     def test1(self):
         result = self.dfSurvived.combine(self.dfSurvived, self.funcSum)
-        print(result)
+        #print(result)
+
+    #Common columnnames, value_fill is not none, different dtypes in dataframes
+    def test1_2_5_6_7_8_10_11_12_14_16_17_18(self):
+        newdf=pd.DataFrame({'a':[0.0,2.3], 'b':[None,4]})
+        otherdf = pd.DataFrame({'a':[1,1], 'b':[None,3]})
+        expecteddf=pd.DataFrame({'a':[1.0, 1.0], 'b':[-5.0, 3.0]})
+        self.assertTrue(newdf.combine(otherdf, self.take_smaller, fill_value=-5).equals(expecteddf))
+
 
 if __name__ == '__main__' :
     unittest.main()
