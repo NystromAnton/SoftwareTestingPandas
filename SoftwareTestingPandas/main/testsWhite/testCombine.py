@@ -76,7 +76,7 @@ class TestPandasCombine(unittest.TestCase):
         data = selfdf.combine(other, self.funcNone)
         self.assertTrue(data.equals(selfdf.copy()))
 
-def test1_2_4(self):
+    def test1_2_4(self):
         self.emptydf = pd.DataFrame()
         self.assertTrue(self.emptydf.combine(self.df, self.funcNone).equals(self.df))
 
