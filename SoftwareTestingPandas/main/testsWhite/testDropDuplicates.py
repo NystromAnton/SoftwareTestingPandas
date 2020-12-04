@@ -83,8 +83,6 @@ class TestPandasDropDuplicates(unittest.TestCase):
         self.assertTrue(data.equals(dataComp))
 
 
-
-
     def test4(self):
         """
         Test for inplace parameter
