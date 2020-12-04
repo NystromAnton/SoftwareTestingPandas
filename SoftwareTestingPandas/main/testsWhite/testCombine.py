@@ -15,7 +15,7 @@ Author:
 '''
 This file contains multiple white box tests for the function combine from the library Pandas. 
 
-Combines a DataFrame with other DataFrame using func to element-wise combine columns. 
+Combine is a DataFrame with other DataFrame using func to element-wise combine columns. 
 The row and column indexes of the resulting DataFrame will be the union of the two.
 '''
 class TestPandasCombine(unittest.TestCase):
