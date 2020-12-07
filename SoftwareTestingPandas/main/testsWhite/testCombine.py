@@ -48,24 +48,19 @@ class TestPandasCombine(unittest.TestCase):
 
     def testNoArgument(self):
         with self.assertRaises(TypeError):
-            result = self.df.combine()        
+            self.df.combine()        
     
     def testOneArgument(self):
         with self.assertRaises(TypeError):
-            result = self.df.combine(self.dfSurvived)        
+            self.df.combine(self.dfSurvived)        
 
     def testBadFunc(self):
         with self.assertRaises(TypeError):
-            result = self.df.combine(self.df, self.funcBad)        
+            self.df.combine(self.df, self.funcBad)        
 
-    def test1(self):
-        result = self.dfSurvived.combine(self.dfSurvived, self.funcSum)
-        #print(result)
 
     def test1_2_3(self):
-        d = {'col1': [None, None]}
         other = pd.DataFrame()
-        d = {'col1': [1, 2], 'col2': [3, 4]}
         selfdf = pd.DataFrame()
 
         this, other = selfdf.align(other, copy=False) 
@@ -75,10 +70,6 @@ class TestPandasCombine(unittest.TestCase):
 
         data = selfdf.combine(other, self.funcNone)
         self.assertTrue(data.equals(selfdf.copy()))
-
-    def test1_2_4(self):
-        self.emptydf = pd.DataFrame()
-        self.assertTrue(self.emptydf.combine(self.df, self.funcNone).equals(self.df))
 
     def test1_2_4(self):
         d = {'col1': [1, 2], 'col2': [3, 4]}
