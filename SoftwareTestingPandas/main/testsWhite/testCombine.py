@@ -86,8 +86,8 @@ class TestPandasCombine(unittest.TestCase):
 
     def test1_2_5_6_7_8_9(self):
         take_smaller = lambda s1, s2: s1 if s1.sum() < s2.sum() else s2
-        selfdf = pd.DataFrame({'A': [0, 0], 'B': [4, 4], 'C':[None,None]})
-        other = pd.DataFrame({'B': [3, 3], 'C': [None, None], 'D':[11,11], }, index=[1, 2])
+        selfdf = pd.DataFrame({'A': [0, 0], 'B': [4, 4], 'C':[101,101]})
+        other = pd.DataFrame({'B': [3, 3], 'C': [None, None], 'D':[11,11], })
         overwrite = False
 
         self.assertFalse(overwrite)
@@ -95,12 +95,21 @@ class TestPandasCombine(unittest.TestCase):
         other_idxlen = len(other.index)
         this, other = selfdf.align(other, copy=False) 
         new_index = this.index 
-
-        self.assertNotEqual(len(new_index), len(selfdf.index))
-        self.assertNotEqual(len(other), other_idxlen)
-
-        data = selfdf.combine(other, take_smaller)
         
+        self.assertIsNotNone(selfdf)
+        self.assertEqual(len(new_index), len(selfdf.index))
+        self.assertIsNotNone(other)
+        self.assertEqual(len(other), other_idxlen)
+
+        otherSeries = other['C']
+        other_mask = isna(otherSeries)
+        self.assertTrue(other_mask.all())
+        
+        data = selfdf.combine(other, take_smaller, overwrite=overwrite)
+        self.assertEqual(data['C'][0],101)
+        self.assertEqual(data['C'][1],101)
+        self.assertFalse(isna(data['A'][0]))
+
     def test1_2_5_6_7_8_10_12_13_17_18(self):
         newdf= pd.DataFrame({'a':[1.1,1.2], 'b':[3.1,4.3]})
         otherdf = pd.DataFrame({'b':[1,2], 'c':[3,4]})
