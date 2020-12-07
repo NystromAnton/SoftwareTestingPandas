@@ -101,6 +101,9 @@ class TestPandasDropDuplicates(unittest.TestCase):
         dataComp = self.dfDuplicates.drop_duplicates(inplace=True)
         self.assertFalse(data.equals(dataComp))
 
+        data = self.dfDuplicates.drop_duplicates(inplace=True)
+        self.assertIsNone(data)
+        
     def test5(self):
         """
         Test for keep parameter
