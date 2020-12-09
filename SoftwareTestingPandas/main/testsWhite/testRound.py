@@ -1,6 +1,7 @@
 import unittest
 import numpy as np
 import pandas as pd
+import decimal
 '''
 Course: Software Testing
 Team Number: 10
@@ -26,24 +27,52 @@ Using a Series, the number of places for specific columns can be specified with 
 '''
 class TestPandasRound(unittest.TestCase):
     
-    def setUp(self):
-        self.df = pd.read_csv ('../src/data/titanic.csv')
+    def setUp(self):      
+        self.df = pd.DataFrame({'col1': [1.2340303, 0.203, 9.0000], 'col2': [3.43245, 4.0, 288.349983], 'col3': [3.45, 4.52345, 4.002348937], 'col4': [3.4335, 4.55, 87.34829]})
        
 
-    def testNoArgument(self):
-        #data = self.df
-        #print(data)
-        #with self.assertRaises(TypeError):
-            #data.round()       
-        #data = data.pop("Fare") 
-        #data.round(1)
-        #print(data)
-        
-        dogscats = pd.DataFrame([(.21, .32), (.01, .67), (.66, .03), (.21, .18)], columns=['dogs', 'cats'])
-        print(dogscats)
-        #dogscats.round(1)
-        dogscats.round({'dogs': 1, 'cats': 0})
-        print(dogscats)
+    def testOneDecimal(self):
+        data = self.df            
+        data = data.round(1)          
+        for column in data.iteritems():  
+            for value in column[1].values:           
+                self.assertEqual(str(value)[::-1].find('.'), 1)
+
+
+    def testTwoDecimals(self):
+        data = self.df        
+        data = data.round(2)               
+        for column in data.iteritems():  
+            for value in column[1].values:                       
+                self.assertTrue(str(value)[::-1].find('.') <= 2)
+
+
+    def testMoreDecimals(self): 
+        data = self.df     
+        print(data)   
+        data = data.round(8)  
+        print(data)             
+        for column in data.iteritems():  
+            for value in column[1].values:        
+                if str(value)[::-1].find('.') == 1:
+                    print(value)
+                    self.assertEqual(str(value)[-1], '0')  
+                else:        
+                    print(value)     
+                    self.assertTrue(str(value)[::-1].find('.') <= 8)
+
+
+    def testNoArgument(self): 
+        data = self.df        
+        data = data.round()               
+        for column in data.iteritems():              
+            for value in column[1].values:                                      
+                if str(value)[::-1].find('.') == 1:
+                    self.assertEqual(str(value)[-1], '0')
+                else:  
+                    self.assertTrue(str(value)[::-1].find('.') == 8)
+    
+
     
 if __name__ == '__main__' :    
     unittest.main()
