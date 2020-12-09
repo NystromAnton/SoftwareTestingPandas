@@ -16,13 +16,9 @@ Contributors:
 '''
 This file contains multiple white box tests for the function DataFrame.count() from the library Pandas.
 
-The function DataFrame.count() counts the number of elements that are != NaN
-in a DataFrame and returns an intager.
+The function DataFrame.count() counts all non-NA cells for each column or row and returns a Series or a DataFrame. If the parameter level is specified a DataFrame is returned otherwise a Series.
 '''
 class TestPandasTitanicCountW(unittest.TestCase):
-    """
-    Test suite for the sensitive edge problem
-    """
 
     def setUp(self):
         self.df = pd.read_csv ('../src/data/titanic.csv')
@@ -52,9 +48,7 @@ class TestPandasTitanicCountW(unittest.TestCase):
     # returns a Series that counts the number of elements in each column where all
     # of the values are of type integer, float or boolean
     def testTitanicCountW2(self):
-        self.assertTrue(self.df.count(axis = 'index', numeric_only=True).equals(pd.Series([887,
-        887, 887, 887, 887, 887], ['Survived', 'Pclass', 'Age',
-        'Siblings/Spouses Aboard', 'Parents/Children Aboard', 'Fare'])))
+        self.assertTrue(self.df.count(axis = 'index', numeric_only=True).equals(pd.Series([887, 887, 887, 887, 887, 887], ['Survived', 'Pclass', 'Age', 'Siblings/Spouses Aboard', 'Parents/Children Aboard', 'Fare'])))
         '''
         Survived                   887
         Pclass                     887
@@ -71,9 +65,7 @@ class TestPandasTitanicCountW(unittest.TestCase):
     # And return a Series datatype
     def testTitanicCountW3(self):
         self.df['Fare'].replace(0, np.nan, inplace = True)
-        self.assertTrue(self.df.count(axis = 'index').equals(pd.Series([887, 887, 887,
-        887, 887, 887, 887, 872], ['Survived', 'Pclass', 'Name', 'Sex', 'Age',
-        'Siblings/Spouses Aboard', 'Parents/Children Aboard', 'Fare'])))
+        self.assertTrue(self.df.count(axis = 'index').equals(pd.Series([887, 887, 887, 887, 887, 887, 887, 872], ['Survived', 'Pclass', 'Name', 'Sex', 'Age', 'Siblings/Spouses Aboard', 'Parents/Children Aboard', 'Fare'])))
         '''
         Survived                   887
         Pclass                     887

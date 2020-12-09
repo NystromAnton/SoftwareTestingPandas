@@ -17,8 +17,7 @@ Contributors:
 This file contains multiple black box tests for the function DataFrame.count()
 from the library Pandas.
 
-The function DataFrame.count() counts the number of elements that are != NaN
-in a DataFrame and returns an intager.
+The function DataFrame.count() counts all non-NA cells for each column or row and returns a Series or a DataFrame. If the parameter level is specified a DataFrame is returned otherwise a Series.
 '''
 
 class TestPandasTitanicCountB(unittest.TestCase):
@@ -73,9 +72,7 @@ class TestPandasTitanicCountB(unittest.TestCase):
     # And return a Series datatype
     def testTitanicCountB6(self):
         self.df['Fare'].replace(0, np.nan, inplace = True)
-        self.assertTrue(self.df.count(axis = 'index').equals(pd.Series([887, 887, 887,
-        887, 887, 887, 887, 872], ['Survived', 'Pclass', 'Name', 'Sex', 'Age',
-        'Siblings/Spouses Aboard', 'Parents/Children Aboard', 'Fare'])))
+        self.assertTrue(self.df.count(axis = 'index').equals(pd.Series([887, 887, 887, 887, 887, 887, 887, 872], ['Survived', 'Pclass', 'Name', 'Sex', 'Age', 'Siblings/Spouses Aboard', 'Parents/Children Aboard', 'Fare'])))
 
         '''
         Survived                   887
