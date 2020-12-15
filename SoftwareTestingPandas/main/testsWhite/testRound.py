@@ -26,13 +26,16 @@ Using a Series, the number of places for specific columns can be specified with 
 
 '''
 class TestPandasRound(unittest.TestCase):
-    # TODO byt så det inte är cats o dogs som i deras exempel
+
     def setUp(self):      
         np.random.seed(120)
         self.df = pd.DataFrame(np.random.random([3, 4]), columns =["1", "2", "3", "4"]) 
        
 
-    def testFirst(self):
+    def testInt(self):
+        """
+        Tests that specifying an int as argument rounds value to that amount of decimals
+        """
         df = pd.DataFrame([(.239, .532), (.265, .982), (.902, .347), (.128, .298)], columns=['col1', 'col2'])        
         df = df.round(1)    
         for column in df.iteritems():  
@@ -41,13 +44,15 @@ class TestPandasRound(unittest.TestCase):
 
 
     def testDict(self): #TODO Den kollar bara att det är en decimal men den bort också kolla att för cats är det bara nollor som decimal
-        df = pd.DataFrame([(.239, .532), (.265, .982), (.902, .347), (.128, .298)], columns=['col1', 'col2'])
-        #print(df)      
-        df = df.round({'col1': 1, 'col2': 0}) 
-        #print(df)
+        """
+
+        """
+        df = pd.DataFrame([(.239, .532), (.265, .982), (.902, .347), (.128, .298)], columns=['col1', 'col2'])        
+        df = df.round({'col1': 1, 'col2': 0})     
         for column in df.iteritems():  
             for value in column[1].values:           
                 self.assertEqual(str(value)[::-1].find('.'), 1)
+
 
     def testSeries(self): #Det här testet adderade rad 8061 och 8062 
         """
@@ -70,11 +75,15 @@ class TestPandasRound(unittest.TestCase):
 
 
     def stestForValueNotIntegerOrFloat(self):
+        """
+
+        """
         df = pd.DataFrame([("foo", .323), (.013, .677), (.666, .083), (.291, .118)], columns=['col1', 'col2'])
         
         decimals = pd.Series([0, 1], index=['col1', 'col2'])                 
         df = df.round(decimals)
         print(df)
+
 
     def testErrors(self):
         """
@@ -94,6 +103,9 @@ class TestPandasRound(unittest.TestCase):
            
 
     def testOneDecimal(self):
+        """
+
+        """
         data = self.df
         print(data)            
         data = data.round(1)          
@@ -104,6 +116,9 @@ class TestPandasRound(unittest.TestCase):
 
 
     def testTwoDecimals(self):
+        """
+
+        """
         data = self.df        
         data = data.round(2)               
         for column in data.iteritems():  
@@ -112,6 +127,9 @@ class TestPandasRound(unittest.TestCase):
 
 
     def testMoreDecimals(self): 
+        """
+
+        """
         data = self.df     
         print(data)   
         data = data.round(8)  
@@ -127,6 +145,9 @@ class TestPandasRound(unittest.TestCase):
 
 
     def testNoArgument(self): 
+        """
+
+        """
         data = self.df        
         data = data.round()               
         for column in data.iteritems():              
