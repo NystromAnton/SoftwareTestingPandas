@@ -28,15 +28,12 @@ Using a Series, the number of places for specific columns can be specified with 
 class TestPandasRound(unittest.TestCase):
     # TODO byt så det inte är cats o dogs som i deras exempel
     def setUp(self):      
-        self.df = pd.DataFrame({\
-            'col1': [decimal.Decimal('1.2340303'), decimal.Decimal('0.203'), decimal.Decimal('9.0000')], \
-            'col2': [decimal.Decimal('3.43245'), decimal.Decimal('4.0'), decimal.Decimal('288.349983')], \
-            'col3': [decimal.Decimal('3.45'), decimal.Decimal('4.52345'), decimal.Decimal('4.002348937')], \
-            'col4': [decimal.Decimal('3.4335'), decimal.Decimal('4.55'), decimal.Decimal('87.34829')]})
+        np.random.seed(25)
+        self.df = pd.DataFrame(np.random.random([3, 4]), columns =["A", "B", "C", "D"]) 
        
 
     def testFirst(self):
-        df = pd.DataFrame([(.21, .32), (.01, .67), (.66, .03), (.21, .18)], columns=['dogs', 'cats'])        
+        df = pd.DataFrame([(.239, .532), (.265, .982), (.902, .347), (.128, .298)], columns=['dogs', 'cats'])        
         df = df.round(1)    
         for column in df.iteritems():  
             for value in column[1].values:           
@@ -65,14 +62,19 @@ class TestPandasRound(unittest.TestCase):
         for column in df.iteritems():  #TODO Den kollar bara att det är en decimal men den bort också kolla att för cats är det bara nollor som decimal
             for value in column[1].values:           
                 self.assertEqual(str(value)[::-1].find('.'), 1)
-
-        # This added rows 8049 and 8050
+       
         df2 = pd.DataFrame([('val1', 'val2'), ('val3', 'val4'), ('val5', 'val6'), ('val7', 'val8')], columns=['col1', 'col2'])
-        decimals2 = pd.Series([0, 1], index=['col1', 'col2'])
-        print(df2)
-        df2 = df2.round(decimals2)
-        print(df2)
+        decimals2 = pd.Series([0, 1], index=['col1', 'col2'])        
+        df3 = df.round(decimals2) # This ads rows 8049-8050    
+        df4 = df2.round(decimals2) # This ads row 8055
 
+
+    def stestForValueNotIntegerOrFloat(self):
+        df = pd.DataFrame([("foo", .32), (.01, .67), (.66, .03), (.21, .18)], columns=['dogs', 'cats'])
+        
+        decimals = pd.Series([0, 1], index=['dogs', 'cats'])                 
+        df = df.round(decimals)
+        print(df)
 
     def testErrors(self):
         """
@@ -91,7 +93,7 @@ class TestPandasRound(unittest.TestCase):
             df = df.round(decimals)       
            
 
-    def stestOneDecimal(self):
+    def testOneDecimal(self):
         data = self.df
         print(data)            
         data = data.round(1)          
@@ -101,7 +103,7 @@ class TestPandasRound(unittest.TestCase):
                 self.assertEqual(str(value)[::-1].find('.'), 1)
 
 
-    def stestTwoDecimals(self):
+    def testTwoDecimals(self):
         data = self.df        
         data = data.round(2)               
         for column in data.iteritems():  
@@ -109,7 +111,7 @@ class TestPandasRound(unittest.TestCase):
                 self.assertTrue(str(value)[::-1].find('.') <= 2)
 
 
-    def stestMoreDecimals(self): 
+    def testMoreDecimals(self): 
         data = self.df     
         print(data)   
         data = data.round(8)  
@@ -124,7 +126,7 @@ class TestPandasRound(unittest.TestCase):
                     self.assertTrue(str(value)[::-1].find('.') <= 8)
 
 
-    def stestNoArgument(self): 
+    def testNoArgument(self): 
         data = self.df        
         data = data.round()               
         for column in data.iteritems():              
