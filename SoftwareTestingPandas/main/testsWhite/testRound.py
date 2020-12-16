@@ -57,7 +57,7 @@ class TestPandasRound(unittest.TestCase):
     def testDict(self):
         """
         Tests using a dict to specify different number of decimal places
-        for different columns. Done by  having column name as key and decimal places as value.    
+        for different columns. Done by having column name as key and decimal places as value.    
         """
         df = pd.DataFrame([(.239, .532), (.265, .982), (.902, .347), (.128, .298)], columns=['col1', 'col2'])        
         df = df.round({'col1': 1, 'col2': 0})   
@@ -77,7 +77,7 @@ class TestPandasRound(unittest.TestCase):
             self.assertTrue(value.endswith('.0'))              
 
 
-    def testSeries(self): # Added rows 8061 and 8062 
+    def testSeries(self):
         """
         Tests using a series to specify different number of decimal places
         for different columns. Done by indexing by column names and decimal places as values.       
@@ -119,7 +119,7 @@ class TestPandasRound(unittest.TestCase):
         self.assertTrue(df.equals(dfRounded))         
 
 
-    def testForValueNotIntegerOrFloat(self):
+    def testDifferingColumn(self):
         """
         Tests that if a column contains one value not of type integer or float, 
         then no other value in that column gets rounded. The other columns should be rounded.
@@ -142,7 +142,7 @@ class TestPandasRound(unittest.TestCase):
         df = pd.DataFrame([(.239, .532), (.265, .982), (.902, .347), (.128, .298)], columns=['col1', 'col2'])
         
         decimals = pd.Series([0, 1], index=['col2', 'col2'])         
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ValueError): # 8061 and 8062
             df = df.round(decimals)
 
         decimals = "string"
